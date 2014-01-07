@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
-from hostproofauth import __version__
+from hostproof_auth import __version__
 
 setup(
     name='hostproof_auth',

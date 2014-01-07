@@ -1,7 +1,7 @@
 from django.contrib.auth.models import check_password
 from hostproof_auth.models import User
 
-class LoginBackend(object):  
+class ModelBackend(object):
     def authenticate(self, username=None, decrypted_challenge=None):
         if username and decrypted_challenge:
             try:

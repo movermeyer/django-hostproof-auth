@@ -172,5 +172,5 @@ LOGGING = {
 AUTH_USER_MODEL = 'hostproof_auth.User'
 
 AUTHENTICATION_BACKENDS = (
-    'hostproof_auth.auth.LoginBackend',
+    'hostproof_auth.auth.ModelBackend',
 )

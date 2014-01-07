@@ -6,7 +6,7 @@ from hostprooflogin import __version__
 
 setup(
     name='hostprooflogin',
-    version='0.1.0',
+    version=__version__,
     description='Secure Host-Proof login app in Django-powered sites',
     author='Jorge Pintado',
     author_email='j.pintado89@gmail.com',

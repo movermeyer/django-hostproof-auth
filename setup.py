@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
-from hostprooflogin import __version__
+from hostproofauth import __version__
 
 setup(
-    name='hostprooflogin',
+    name='hostproof_auth',
     version=__version__,
-    description='Secure Host-Proof login app in Django-powered sites',
+    description='Secure Host-Proof authentication backend for Django-powered sites',
     author='Jorge Pintado',
     author_email='j.pintado89@gmail.com',
-    url='https://github.com/jpintado/django-hostproof-login',
+    url='https://github.com/jpintado/django-hostproof-auth',
     long_description=open('README.rst', 'r').read(),
     license="MIT",
     requires=[
@@ -32,7 +32,7 @@ setup(
     ],
 
     packages=[
-        'hostprooflogin'
+        'hostproof_auth'
     ],
     include_package_data=True,
     zip_safe=False,

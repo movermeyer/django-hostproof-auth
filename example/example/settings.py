@@ -6,7 +6,7 @@ ROOT_PATH = os.path.dirname(CURRENT_PATH)
 PROJECT_PATH = os.path.dirname(ROOT_PATH)
 
 try:
-    import hostprooflogin
+    import hostproof_auth
 except ImportError:
     sys.path.insert(0, PROJECT_PATH)
 
@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'hostprooflogin',
+    'hostproof_auth',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -169,8 +169,8 @@ LOGGING = {
 }
 
 
-AUTH_USER_MODEL = 'hostprooflogin.User'
+AUTH_USER_MODEL = 'hostproof_auth.User'
 
 AUTHENTICATION_BACKENDS = (
-    'hostprooflogin.auth.LoginBackend',
+    'hostproof_auth.auth.LoginBackend',
 )

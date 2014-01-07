@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFou
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
-from hostprooflogin.models import *
+from hostproof_auth.models import *
 
 @csrf_exempt
 @require_POST

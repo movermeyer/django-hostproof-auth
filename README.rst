@@ -1,4 +1,4 @@
-django-hostproof-login
+django-hostproof-auth
 ======================
 
-Secure Host-Proof login app in Django-powered sites
+Secure Host-Proof authentication backend for Django-powered sites

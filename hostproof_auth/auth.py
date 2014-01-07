@@ -1,5 +1,5 @@
 from django.contrib.auth.models import check_password
-from hostprooflogin.models import User
+from hostproof_auth.models import User
 
 class LoginBackend(object):  
     def authenticate(self, username=None, decrypted_challenge=None):

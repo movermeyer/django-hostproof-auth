@@ -8,6 +8,18 @@ Secure Host-Proof authentication backend for Django-powered sites.
 
 The password is never transmitted to the server. The server is limited to persisting and retrieving whatever encrypted data is sent to it, and never actually accesses the sensitive data in its plain form.
 
+Overview
+========
+
+Requirements
+------------
+
+- Python 2.6, 2.7, 3.2 or 3.3
+
+- Django (1.6+)
+
+- rsa
+
 Installation
 ============
 

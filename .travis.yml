@@ -5,9 +5,9 @@ python:
   - "3.2"
   - "3.3"
 env:
-  - DJANGO=1.6 DJANGO_SETTINGS_MODULE=example.example.settings
+  - DJANGO=1.6
 install:
   - pip install -q Django==$DJANGO --use-mirrors
   - python setup.py install 
 script:
-  - python example/manage.py test
+  - python manage.py test

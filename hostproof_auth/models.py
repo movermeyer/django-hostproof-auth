@@ -161,18 +161,18 @@ class BaseUserManager(models.Manager):
 
 class UserManager(BaseUserManager):
 
-    def _create_user(self, username, email, encrypted_challenge, decrypted_challenge,
+    def _create_user(self, username, email, encrypted_challenge, challenge,
                      is_staff, is_superuser, **extra_fields):
         """
-        Creates and saves a User with the given username, email, encrypted_challenge and decrypted_challenge.
+        Creates and saves a User with the given username, email, encrypted_challenge and challenge.
         """
         now = timezone.now()
         if not username:
             raise ValueError('The given username must be set')
         if not encrypted_challenge:
             raise ValueError('The given encrypted_challenge must be set')
-        if not decrypted_challenge:
-            raise ValueError('The given decrypted_challenge must be set')
+        if not challenge:
+            raise ValueError('The given challenge must be set')
 
         email = self.normalize_email(email)
         user = self.model(username=username, email=email,
@@ -180,23 +180,23 @@ class UserManager(BaseUserManager):
                           is_superuser=is_superuser, last_login=now,
                           date_joined=now, **extra_fields)
         user.set_encrypted_challenge(encrypted_challenge)
-        user.set_decrypted_challenge(decrypted_challenge)
+        user.set_challenge(challenge)
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, email=None, encrypted_challenge=None, decrypted_challenge=None, **extra_fields):
-        return self._create_user(username, email, encrypted_challenge, decrypted_challenge, False, False,
+    def create_user(self, username, email=None, encrypted_challenge=None, challenge=None, **extra_fields):
+        return self._create_user(username, email, encrypted_challenge, challenge, False, False,
                                  **extra_fields)
 
-    def create_superuser(self, username, email, encrypted_challenge=None, decrypted_challenge=None, **extra_fields):
-        return self._create_user(username, email, encrypted_challenge, decrypted_challenge, True, True,
+    def create_superuser(self, username, email, encrypted_challenge=None, challenge=None, **extra_fields):
+        return self._create_user(username, email, encrypted_challenge, challenge, True, True,
                                  **extra_fields)
 
 
 @python_2_unicode_compatible
 class AbstractBaseUser(models.Model):
     encrypted_challenge = models.CharField(_('encrypted_challenge'), max_length=128)
-    decrypted_challenge = models.CharField(_('decrypted_challenge'), max_length=128)
+    challenge = models.CharField(_('challenge'), max_length=128)
     last_login = models.DateTimeField(_('last login'), default=timezone.now)
 
     is_active = True
@@ -233,22 +233,22 @@ class AbstractBaseUser(models.Model):
     def set_encrypted_challenge(self, challenge):
         self.encrypted_challenge = challenge
 
-    def set_decrypted_challenge(self, raw_challenge):
-        self.decrypted_challenge = make_password(raw_challenge)
+    def set_challenge(self, raw_challenge):
+        self.challenge = make_password(raw_challenge)
 
-    def check_challenge(self, decrypted_challenge):
+    def check_challenge(self, challenge):
         """
         Returns a boolean of whether the raw_challenge was correct. Handles
         hashing formats behind the scenes.
         """
         def setter(raw_challenge):
-            self.set_decrypted_challenge(raw_challenge)
-            self.save(update_fields=["decrypted_challenge"])
-        return check_password(raw_challenge, self.decrypted_challenge, setter)
+            self.set_challenge(raw_challenge)
+            self.save(update_fields=["challenge"])
+        return check_password(raw_challenge, self.challenge, setter)
 
     def set_unusable_challenge(self):
         # Sets a value that will never be a valid hash
-        self.decrypted_challenge = make_password(None)
+        self.challenge = make_password(None)
 
     def has_usable_challenge(self):
         return is_password_usable(self.challenge)
@@ -365,7 +365,7 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
     An abstract base class implementing a fully featured User model with
     admin-compliant permissions.
 
-    Username, encrypted_challenge, decrypted_challenge and email are required. Other fields are optional.
+    Username, encrypted_challenge, challenge and email are required. Other fields are optional.
     """
     username = models.CharField(_('username'), max_length=30, unique=True,
         help_text=_('Required. 30 characters or fewer. Letters, digits and '
@@ -417,7 +417,7 @@ class User(AbstractUser):
     Users within the Django authentication system are represented by this
     model.
 
-    Username, encrypted_challenge, decrypted_challenge and email are required. Other fields are optional.
+    Username, encrypted_challenge, challenge and email are required. Other fields are optional.
     """
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
@@ -455,7 +455,7 @@ class AnonymousUser(object):
     def delete(self):
         raise NotImplementedError("Django doesn't provide a DB representation for AnonymousUser.")
 
-    def set_decrypted_challenge(self, raw_challenge):
+    def set_challenge(self, raw_challenge):
         raise NotImplementedError("Django doesn't provide a DB representation for AnonymousUser.")
 
     def set_encrypted_challenge(self, challenge):

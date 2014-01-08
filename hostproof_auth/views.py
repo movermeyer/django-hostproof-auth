@@ -10,14 +10,14 @@ def register(request):
     username = request.POST.get('username')
     email = request.POST.get('email')
     encrypted_challenge = request.POST.get('encrypted_challenge')
-    decrypted_challenge = request.POST.get('decrypted_challenge')
-    if username and email and encrypted_challenge and decrypted_challenge:
+    challenge = request.POST.get('challenge')
+    if username and email and encrypted_challenge and challenge:
         if User.objects.filter(username=username).exists():
             return HttpResponse(status=409, content="Account Already Exists")
         user = User.objects.create_user(username=username,
                                         email=email,
                                         encrypted_challenge=encrypted_challenge,
-                                        decrypted_challenge=decrypted_challenge)
+                                        challenge=challenge)
         return HttpResponse()
 
     else:

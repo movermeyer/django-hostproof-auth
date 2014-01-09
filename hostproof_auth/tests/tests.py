@@ -100,14 +100,14 @@ class ChallengeTest(TestCase):
     def test_get_challenge_valid_json(self):
         response = self.client.get("/challenge/", {"username":"john"})
         try:
-            json.loads(response.content.encode('utf-8'))
+            json.loads(response.content.decode('utf-8'))
         except ValueError:
             self.fail("Bad JSON format")
 
     def test_get_challenge_valid_encrypted_challenge(self):
         response = self.client.get("/challenge/", {"username":"john"})
         try:
-            challenge_json = json.loads(response.content.encode('utf-8'))
+            challenge_json = json.loads(response.content.decode('utf-8'))
             self.assertEqual("encrypted_challenge" in challenge_json, True)
             self.assertEqual(challenge_json["encrypted_challenge"], "encryptedrandomstring")
         except ValueError:
@@ -128,7 +128,7 @@ class ChallengeTest(TestCase):
     def test_get_challenge_valid_json(self):
         response = self.client.post("/challenge/", {"username":"john", "challenge":"randomstring"})
         try:
-            rsa_json = json.loads(response.content.encode('utf-8'))
+            rsa_json = json.loads(response.content.decode('utf-8'))
             self.assertEqual("rsa_public" in rsa_json, True)
         except ValueError:
             self.fail("Bad JSON format")

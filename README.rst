@@ -40,15 +40,25 @@ You could require root permissions to execute the previous command.
 Configuration
 -----------
 
-- Add ``hostproof_auth`` to ``INSTALLED_APPS``.
+- In **settings.py**:
 
-- Add the authentication backend to your application::
+  - Add ``hostproof_auth`` to ``INSTALLED_APPS``.
 
-    AUTH_USER_MODEL = 'hostproof_auth.User'
+  - Add the authentication backend to your application::
 
-    AUTHENTICATION_BACKENDS = (
-        'hostproof_auth.auth.ModelBackend',
-    )
+      AUTH_USER_MODEL = 'hostproof_auth.User'
+
+      AUTHENTICATION_BACKENDS = (
+          'hostproof_auth.auth.ModelBackend',
+      )
+
+- Include *hostproof_auth* in your **urls.py** with some prefix::
+
+      urlpatterns = patterns('',
+          # ... snip ...
+          url(r'^auth/', include('hostproof_auth.urls')),
+          # ... snip ...
+      )
 
 Usage
 =====
@@ -56,7 +66,7 @@ Usage
 Registration
 ------------
 
-- POST request to the ``hostproof_auth_register`` URL (typically something like */register/*) with the parameters:
+- POST request to the ``hostproof_auth_register`` URL (typically something like */auth/register/*) with the parameters:
 
   - username
   - email
@@ -72,7 +82,7 @@ Registration
 Login
 -----
 
-- GET request to the ``challenge`` URL (typically something like */challenge/*) with the parameter ``username``.
+- GET request to the ``challenge`` URL (typically something like */auth/challenge/*) with the parameter ``username``.
 
   Example::
   

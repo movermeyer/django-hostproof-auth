@@ -38,7 +38,7 @@ def challenge(request):
         if username:
             try:
                 user = User.objects.get(username=username)
-                return HttpResponse(format_response('encrypted_challege',
+                return HttpResponse(format_response('encrypted_challenge',
                                         user.encrypted_challenge,
                                         format))
             except User.DoesNotExist:

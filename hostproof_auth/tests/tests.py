@@ -98,14 +98,14 @@ class ChallengeTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get_challenge_valid_json(self):
-        response = self.client.get("/challenge/", {"username":"john"})
+        response = self.client.get("/challenge/", {"username":"john", 'format':'json'})
         try:
             json.loads(response.content)
         except ValueError:
             self.fail("Bad JSON format")
 
     def test_get_challenge_valid_encrypted_challenge(self):
-        response = self.client.get("/challenge/", {"username":"john"})
+        response = self.client.get("/challenge/", {"username":"john", 'format':'json'})
         try:
             challenge_json = json.loads(response.content)
             self.assertEqual("encrypted_challenge" in challenge_json, True)
@@ -126,7 +126,7 @@ class ChallengeTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get_challenge_valid_json(self):
-        response = self.client.post("/challenge/", {"username":"john", "challenge":"randomstring"})
+        response = self.client.post("/challenge/", {"username":"john", "challenge":"randomstring", 'format':'json'})
         try:
             rsa_json = json.loads(response.content)
             self.assertEqual("rsa_public" in rsa_json, True)

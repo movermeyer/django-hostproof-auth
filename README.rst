@@ -63,6 +63,85 @@ Configuration
 Usage
 =====
 
+*django-hostproof-auth* provides a JavaScript client to register and login users in your django application. 
+You can easily access to this client in your templates by including the following::
+
+  {% load staticfiles %}
+
+  <script type="text/javascript" src="{% static "hostproof_auth/hostproof_auth.js" %}"></script>
+
+The JavaScript client uses the SJCL library and Jquery_, so in case you don't have already in your project you can use the version included in the package (Jquery 2.0.3):
+
+.. _Jquery: http://www.jquery.com/
+
+::
+
+  <script type="text/javascript" src="{% static "hostproof_auth/sjcl.js" %}"></script>
+  <script type="text/javascript" src="{% static "hostproof_auth/jquery-2.0.3.min.js" %}"></script>
+  
+These are examples about the use of this client that you can directly include in your login/registration templates:
+
+**Registration**::
+
+    {% load staticfiles %}
+
+    <script type="text/javascript" src="{% static "hostproof_auth/sjcl.js" %}"></script>
+    <script type="text/javascript" src="{% static "hostproof_auth/jquery-2.0.3.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "hostproof_auth/hostproof_auth.js" %}"></script>
+    <script>
+        function doRegistration() {
+            username = $("#id_username").val();
+            email = $("#id_email").val();
+            password = $("#id_password").val();
+            $.when(
+                register("{% url 'hostproof_auth_register' %}", username, email, password)
+            ).done(function(d) {
+                console.log(d);
+                //Registration completed. Redirect to desired page.
+            }).fail(function(d) {
+                console.log(d);
+                //Registration completed. Show desired message.
+            });
+        }
+    </script>
+
+    <input id="id_username" type="text" name="username" maxlength="100" />
+    <input id="id_email" type="text" name="email" maxlength="100" />
+    <input id="id_password" type="password" name="password" maxlength="100" /></p>
+    <button onclick="doRegistration()">Login</button>
+  
+**Login**::
+
+    {% load staticfiles %}
+
+    <script type="text/javascript" src="{% static "hostproof_auth/sjcl.js" %}"></script>
+    <script type="text/javascript" src="{% static "hostproof_auth/jquery-2.0.3.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "hostproof_auth/hostproof_auth.js" %}"></script>
+    <script>
+        function doLogin() {
+            username = $("#id_username").val();
+            password = $("#id_password").val();
+            $.when(
+                login("{% url 'hostproof_auth_challenge' %}", username, password)
+            ).done(function(d) {
+                console.log(d);
+                //Login completed. Redirect to desired page.
+            }).fail(function(d){
+                console.log(d);
+                //Login Failed. Show desired message.
+            });
+        }
+    </script>
+
+    <input id="id_username" type="text" name="username" />
+    <input id="id_password" type="password" name="password" />
+    <button onclick="doLogin()">Login</button>
+
+Advanced Usage
+==============
+
+You may create your own JavaScript client, or create a client in any other language. In that case, you will need to make the necessary requests to register and login users. Below is the documentation for these API requests:
+
 Registration
 ------------
 
@@ -82,11 +161,14 @@ Registration
 Login
 -----
 
-- GET request to the ``challenge`` URL (typically something like */auth/challenge/*) with the parameter ``username``.
+- GET request to the ``challenge`` URL (typically something like */auth/challenge/*) with the parameters.
+
+  - username
+  - format (OPTIONAL): specifies the response format. Supported "text" and "json". The default value is "text".
 
   Example::
   
-    /challenge/?username=foobar
+    /challenge/?username=foobar&format=json
 
   Response::
   
@@ -94,12 +176,21 @@ Login
       "encrypted_challenge" : "U2FsdGVkX19ED2i2M8uE3AySNJyKzw8SXtru9JQbNmo="
     }
     
-- POST request to the ``challenge`` URL with the parameter ``username`` and ``challenge``.
+- POST request to the ``challenge`` URL with the parameters:
+
+  - username
+  - challenge: the challenge after the decryption with the user password.
+  - format (OPTIONAL): specifies the response format. Supported "text" and "json". The default value is "text".
 
   The client application needs to decrypt the encrypted_challenge using the password, and send the original challenge as response to be authenticated.
   
   Example::
 
-    username=foobar&challenge=randomstring
+    username=foobar&challenge=randomstring&format=json
 
+  Response::
+    
+    {
+        "rsa_public": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQC6ZV2lMzO50HoJhznNat7pB+cVwY91Qpn58iIC8X4QleNatgyqJfZzu3RdwQQJDr2uUv+sXdEm+wYGBXg0gqZjAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
+    }
  

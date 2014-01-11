@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
 from hostproof_auth.models import *
-from hostproof_auth.utils import valid_response_format, format_response
+from hostproof_auth.utils import valid_email, valid_response_format, format_response
 
 import json
 import rsa
@@ -18,6 +18,8 @@ def register(request):
     encrypted_challenge = request.POST.get('encrypted_challenge')
     challenge = request.POST.get('challenge')
     if username and email and encrypted_challenge and challenge:
+        if not valid_email(email):
+            return HttpResponseBadRequest("Invalid email address")
         if User.objects.filter(Q(username=username) | Q(email=email)).exists():
             return HttpResponse(status=409, content="Account Already Exists")
         user = User.objects.create_user(username=username,

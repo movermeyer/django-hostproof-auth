@@ -64,6 +64,13 @@ class RegistrationTest(TestCase):
                                     "encrypted_challenge":"encryptedrandomstring"})
         self.assertEqual(response.status_code, 200)
 
+    def test_post_register_invalid_email(self):
+        response = self.client.post("/register/", {"username":"leeroy.jenkins",
+                                    "email":"notanemail",
+                                    "challenge":"randomstring",
+                                    "encrypted_challenge":"encryptedrandomstring"})
+        self.assertEqual(response.status_code, 400)
+
     def test_post_register_duplicated_username(self):
         response = self.client.post("/register/", {"username":"john",
                                     "email":"otheremail@domain.com",

@@ -1,3 +1,11 @@
+function supports_html5_storage() {
+    try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+    } catch (e) {
+        return false;
+    }
+}
+
 function randomString(length) {
     var text = "";
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -45,7 +53,7 @@ function login(baseUrl, username, password) {
         ).then(function(data) {
             return sjcl.decrypt(password, data)
         }).then(function(challenge) {
-            $.ajax({
+            return $.ajax({
                 type: "POST",
                 url: baseUrl,
                 data: {
@@ -53,7 +61,11 @@ function login(baseUrl, username, password) {
                     "challenge" : challenge,
                 }
             })
-        }).done(function() {
+        }).then(function(rsa_public) {
+            if (supports_html5_storage()) {
+                localStorage.setItem("rsa_public", rsa_public);
+            }
+        }).done(function(data) {
             deferred.resolve("Login completed");
         }).fail(function() {
             deferred.reject("Login failed");

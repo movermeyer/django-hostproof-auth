@@ -26,6 +26,12 @@ Installation
 Install package
 ---------------
 
+From pypi_::
+
+    pip install django_hostproof_auth
+    
+or clone from github_:
+
 - Clone the repository::
 
     git clone https://github.com/jpintado/django-hostproof-auth.git
@@ -34,7 +40,7 @@ Install package
 
     python setup.py install
 
-You could require root permissions to execute the previous command.
+You could require root permissions to execute the previous commands.
     
 
 Configuration
@@ -194,3 +200,7 @@ Login
         "rsa_public": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQC6ZV2lMzO50HoJhznNat7pB+cVwY91Qpn58iIC8X4QleNatgyqJfZzu3RdwQQJDr2uUv+sXdEm+wYGBXg0gqZjAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
     }
  
+ 
+.. _pypi: https://pypi.python.org/pypi/django_hostproof_auth
+.. _github: https://github.com/jpintado/django-hostproof-auth
+

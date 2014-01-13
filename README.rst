@@ -4,15 +4,21 @@ django-hostproof-auth
 .. image:: https://travis-ci.org/jpintado/django-hostproof-auth.png?branch=master
     :target: https://travis-ci.org/jpintado/django-hostproof-auth
 
+.. image:: https://pypip.in/v/django_hostproof_auth/badge.png
+    :target: https://crate.io/packages/django_hostproof_auth/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/django_hostproof_auth/badge.png
+    :target: https://crate.io/packages/django_hostproof_auth/
+    :alt: Number of PyPI downloads
+    
 Secure Host-Proof authentication backend for Django-powered sites.
 
 The password is never transmitted to the server. The server is limited to persisting and retrieving whatever encrypted data is sent to it, and never actually accesses the sensitive data in its plain form.
 
-Overview
-========
 
 Requirements
-------------
+========
 
 - Python 2.6, 2.7, 3.2 or 3.3
 
@@ -20,13 +26,11 @@ Requirements
 
 - rsa
 
+
 Installation
 ============
 
-Install package
----------------
-
-From pypi_::
+The easiest way to install is with pip_::
 
     pip install django_hostproof_auth
     
@@ -44,7 +48,7 @@ You could require root permissions to execute the previous commands.
     
 
 Configuration
------------
+=============
 
 - In **settings.py**:
 
@@ -87,7 +91,10 @@ The JavaScript client uses the SJCL library and Jquery_, so in case you don't ha
   
 These are examples about the use of this client that you can directly include in your login/registration templates:
 
-**Registration**::
+Registration
+------------
+
+::
 
     {% load staticfiles %}
 
@@ -114,9 +121,13 @@ These are examples about the use of this client that you can directly include in
     <input id="id_username" type="text" name="username" maxlength="100" />
     <input id="id_email" type="text" name="email" maxlength="100" />
     <input id="id_password" type="password" name="password" maxlength="100" /></p>
-    <button onclick="doRegistration()">Login</button>
-  
-**Login**::
+    <button onclick="doRegistration()">Register</button>
+
+
+Login
+-----
+
+::  
 
     {% load staticfiles %}
 
@@ -201,6 +212,6 @@ Login
     }
  
  
-.. _pypi: https://pypi.python.org/pypi/django_hostproof_auth
+.. _pip: https://pypi.python.org/pypi/django_hostproof_auth
 .. _github: https://github.com/jpintado/django-hostproof-auth
 

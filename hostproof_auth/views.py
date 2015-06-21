@@ -67,4 +67,4 @@ def challenge(request):
         else:
             return HttpResponseBadRequest('Invalid or missing parameters')
     else:
-        return HttpResponseNotAllowed()
+        return HttpResponseNotAllowed('Invalid method')

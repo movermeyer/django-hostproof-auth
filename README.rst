@@ -4,6 +4,9 @@ django-hostproof-auth
 .. image:: https://travis-ci.org/jpintado/django-hostproof-auth.png?branch=master
     :target: https://travis-ci.org/jpintado/django-hostproof-auth
 
+.. image:: https://coveralls.io/repos/jpintado/django-hostproof-auth/badge.svg?branch=master
+  :target: https://coveralls.io/r/jpintado/django-hostproof-auth?branch=master
+
 .. image:: https://pypip.in/v/django_hostproof_auth/badge.png
     :target: https://crate.io/packages/django_hostproof_auth/
     :alt: Latest PyPI version
@@ -11,7 +14,7 @@ django-hostproof-auth
 .. image:: https://pypip.in/d/django_hostproof_auth/badge.png
     :target: https://crate.io/packages/django_hostproof_auth/
     :alt: Number of PyPI downloads
-    
+
 Secure Host-Proof authentication backend for Django-powered sites.
 
 The password is never transmitted to the server. The server is limited to persisting and retrieving whatever encrypted data is sent to it, and never actually accesses the sensitive data in its plain form.
